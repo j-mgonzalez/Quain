@@ -1,7 +1,6 @@
 namespace Quain.API
 {
-    using Quain.Repository;
-    using Microsoft.EntityFrameworkCore;
+    using Quain.Services.Extensions;
 
     public class Program
     {
@@ -15,8 +14,8 @@ namespace Quain.API
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            builder.Services.AddDbContext<QuainRadioContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+            builder.Services.RegisterQuainServices(builder.Configuration);
 
             var app = builder.Build();
 
@@ -29,7 +28,9 @@ namespace Quain.API
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+
 
 
             app.MapControllers();

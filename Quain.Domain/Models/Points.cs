@@ -16,5 +16,10 @@
 
         public DateTimeOffset CreatedDate { get; private set; }
 
+        public Points()
+        {
+            CreatedDate = DateTimeOffset.UtcNow;
+        }
+
     }
 }

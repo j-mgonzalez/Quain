@@ -8,7 +8,7 @@
 
         public string LastName { get; private set; }
 
-        public int DNI { get; private set; }
+        public string CUIT { get; private set; }
 
         public Points Points { get; private set; }
     }

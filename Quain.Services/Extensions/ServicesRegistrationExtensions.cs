@@ -5,7 +5,9 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Quain.Repository;
+    using Quain.Repository.Clients;
     using Quain.Repository.Customers;
+    using Quain.Repository.Sales;
     using System.Reflection;
 
     public static class ServicesRegistrationExtensions
@@ -20,6 +22,8 @@
             services.AddAutoMapper(assembly);
 
             services.AddScoped<ICustomersRepository, CustomersRepository>();
+            services.AddScoped<IClientRepository, ClientRepository>();
+            services.AddScoped<ISalesRepository, SalesRepository>();
         }
 
         private static void FluentValidationSettings(this IServiceCollection services, Assembly servicesAssembly)

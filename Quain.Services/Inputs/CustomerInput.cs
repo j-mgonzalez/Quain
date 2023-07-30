@@ -3,12 +3,8 @@
     public class CustomerInput
     {
 
-        public string FirstName { get; set; }
-
-        public string LastName { get; set; }
-
-        public string CUIT { get; set; }
-
         public PointsInput Points { get; set; }
+
+        public string CodClient { get; set; }
     }
 }

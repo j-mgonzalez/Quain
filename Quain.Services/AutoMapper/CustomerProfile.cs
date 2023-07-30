@@ -11,6 +11,10 @@
         {
             CreateMap<CustomerInput, Customer>().ReverseMap();
             CreateMap<Customer, CustomerDto>().ReverseMap();
+
+            CreateMap<Client, Customer>()
+                .ForMember(dest => dest.CodClient, opt => opt.MapFrom(src => src.COD_CLIENT))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.NOM_COM));
         }
     }
 }

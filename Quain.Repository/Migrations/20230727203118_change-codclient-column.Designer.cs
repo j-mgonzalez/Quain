@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Quain.Repository;
 
@@ -11,9 +12,11 @@ using Quain.Repository;
 namespace Quain.Repository.Migrations
 {
     [DbContext(typeof(QuainRadioContext))]
-    partial class QuainRadioContextModelSnapshot : ModelSnapshot
+    [Migration("20230727203118_change-codclient-column")]
+    partial class changecodclientcolumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -4,5 +4,13 @@
 
     internal class CreateCustomerCommandValidator : AbstractValidator<CreateCustomerCommand>
     {
+        public CreateCustomerCommandValidator()
+        {
+            RuleFor(x => x.NComp)
+               .NotEmpty();
+
+            RuleFor(x => x.CodClient)
+                .NotEmpty();
+        }
     }
 }

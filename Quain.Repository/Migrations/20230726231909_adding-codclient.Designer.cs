@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Quain.Repository;
 
@@ -11,9 +12,11 @@ using Quain.Repository;
 namespace Quain.Repository.Migrations
 {
     [DbContext(typeof(QuainRadioContext))]
-    partial class QuainRadioContextModelSnapshot : ModelSnapshot
+    [Migration("20230726231909_adding-codclient")]
+    partial class addingcodclient
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,11 +54,11 @@ namespace Quain.Repository.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("CUIT")
+                    b.Property<string>("COD_CLIENT")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CodClient")
+                    b.Property<string>("CUIT")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -77,14 +80,13 @@ namespace Quain.Repository.Migrations
                     b.Property<DateTimeOffset>("CreatedDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<decimal>("CurrentValue")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("decimal(10,2)");
+                    b.Property<int>("CurrentValue")
+                        .HasColumnType("int");
 
                     b.Property<Guid>("CustomerId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTimeOffset?>("LastUpdate")
+                    b.Property<DateTimeOffset>("LastUpdate")
                         .HasColumnType("datetimeoffset");
 
                     b.HasKey("PointsId");
@@ -101,13 +103,11 @@ namespace Quain.Repository.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal>("Amount")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("decimal(10,2)");
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
 
-                    b.Property<string>("BillNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("BillNumber")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset>("ChangeDate")
                         .HasColumnType("datetimeoffset");
@@ -120,20 +120,6 @@ namespace Quain.Repository.Migrations
                     b.HasIndex("PointsId");
 
                     b.ToTable("PointsChanges");
-                });
-
-            modelBuilder.Entity("Quain.Domain.Models.Sale", b =>
-                {
-                    b.Property<string>("N_COMP")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("TotalFacturado")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.ToTable((string)null);
-
-                    b.ToFunction("FN_GetBillAmount");
                 });
 
             modelBuilder.Entity("Quain.Domain.Models.Points", b =>

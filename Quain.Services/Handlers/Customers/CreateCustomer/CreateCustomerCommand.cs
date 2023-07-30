@@ -5,14 +5,17 @@
 
     public class CreateCustomerCommand : IRequest<CreateCustomerResponse>
     {
-        public CustomerInput CustomerInput { get; set; }
+        public string CodClient { get; set; }
 
-        private CreateCustomerCommand(CustomerInput customerInput)
+        public string NComp { get; set; }
+
+        private CreateCustomerCommand(string codClient, string nComp)
         {
-            CustomerInput = customerInput;
+            CodClient = codClient;
+            NComp = nComp;
         }
 
-        public static CreateCustomerCommand From(CustomerInput customerInput) 
-            => new CreateCustomerCommand(customerInput);
+        public static CreateCustomerCommand From(string codClient, string nComp) 
+            => new CreateCustomerCommand(codClient, nComp);
     }
 }

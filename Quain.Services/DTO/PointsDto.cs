@@ -1,7 +1,10 @@
 ﻿namespace Quain.Services.DTO
 {
+    using Newtonsoft.Json;
+
     public class PointsDto
     {
-        public int Amount { get; set; }
+        [JsonProperty(PropertyName = "amount")]
+        public decimal Amount { get; set; }
     }
 }

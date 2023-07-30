@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Quain.Repository;
 
@@ -11,9 +12,11 @@ using Quain.Repository;
 namespace Quain.Repository.Migrations
 {
     [DbContext(typeof(QuainRadioContext))]
-    partial class QuainRadioContextModelSnapshot : ModelSnapshot
+    [Migration("20230727201454_changing-billNumber-type")]
+    partial class changingbillNumbertype
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,11 +54,11 @@ namespace Quain.Repository.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("CUIT")
+                    b.Property<string>("COD_CLIENT")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CodClient")
+                    b.Property<string>("CUIT")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

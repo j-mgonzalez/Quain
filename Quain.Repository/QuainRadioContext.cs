@@ -26,15 +26,6 @@ public partial class QuainRadioContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Customer>()
-                .HasOne(x => x.Points)
-                .WithOne(x => x.Customer);
-
-        modelBuilder.Entity<Points>()
-            .HasMany(x => x.PointsChanges)
-            .WithOne()
-            .HasForeignKey(x => x.PointsId);
-
         //modelBuilder.Entity<Client>().ToFunction(nameof(FN_GetClientByCodClient));
 
         //modelBuilder.Entity<Sale>().ToFunction(nameof(FN_GetBillAmount));
@@ -42,10 +33,6 @@ public partial class QuainRadioContext : DbContext
         modelBuilder.HasDbFunction(typeof(QuainRadioContext).GetMethod(nameof(FN_GetClientByCodClient), new[] { typeof(string) }));
 
         modelBuilder.HasDbFunction(typeof(QuainRadioContext).GetRuntimeMethod(nameof(FN_GetBillAmount), new[] { typeof(string) }));
-
-        modelBuilder.UseCollation("Modern_Spanish_CI_AI");
-
-        OnModelCreatingPartial(modelBuilder);
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

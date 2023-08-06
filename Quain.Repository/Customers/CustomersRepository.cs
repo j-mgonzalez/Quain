@@ -5,9 +5,9 @@
 
     public class CustomersRepository : ICustomersRepository
     {
-        private readonly QuainRadioContext _context;
+        private readonly QuainPointsContext _context;
 
-        public CustomersRepository(QuainRadioContext context)
+        public CustomersRepository(QuainPointsContext context)
         {
             _context = context;
         }

@@ -12,12 +12,12 @@
 
         public Points Points { get; private set; }
 
-        public void SetPoints(decimal points, string ncomp)
+        public void SetPoints(int points, string ncomp)
         {
             Points = new Points(points, ncomp);
         }
 
-        public void UpdatePoints(decimal amout, string ncomp)
+        public void UpdatePoints(int amout, string ncomp)
         {
             Points.UpdatePoints(amout, ncomp);
         }

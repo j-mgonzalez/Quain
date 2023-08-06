@@ -27,7 +27,7 @@
 
             var sale = await _salesRepository.GetSale(request.NComp);
 
-            customer.UpdatePoints(sale.TotalFacturado, request.NComp);
+            customer.UpdatePoints(ConverToInt(sale.TotalFacturado), request.NComp);
 
             var customerResult = await _customersRepository.Update(customer, cancellationToken);
 
@@ -35,5 +35,7 @@
 
             return UpdateCustomerPointsResponse.With(customerModel);
         }
+
+        private int ConverToInt(decimal value) => Decimal.ToInt32(value);
     }
 }

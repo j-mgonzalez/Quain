@@ -8,14 +8,13 @@
 
         public Guid PointsId { get; private set; }
 
-        [Precision(10, 2)]
-        public decimal Amount { get; private set; }
+        public int Amount { get; private set; }
 
         public DateTimeOffset ChangeDate { get; private set; }
 
         public string BillNumber { get; private set; }
 
-        public PointsChanges(decimal amount, string billNumber)
+        public PointsChanges(int amount, string billNumber)
         {
             ChangeDate = DateTimeOffset.UtcNow;
             Amount = amount;

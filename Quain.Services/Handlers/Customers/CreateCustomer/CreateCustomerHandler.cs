@@ -33,7 +33,7 @@
             var sale = await _salesRepository.GetSale(request.NComp);
             
             var newCustomer = _mapper.Map<Client, Customer>(client, 
-                opt => opt.AfterMap((_, dest) => dest.SetPoints(sale.TotalFacturado, request.NComp)));
+                opt => opt.AfterMap((_, dest) => dest.SetPoints(ConverToInt(sale.TotalFacturado), request.NComp)));
             
             var customerResult = await _customersRepository.Add(newCustomer, cancellationToken);
 
@@ -41,5 +41,7 @@
 
             return CreateCustomerResponse.With(customerModel);
         }
+
+        private int ConverToInt(decimal value) => Decimal.ToInt32(value);
     }
 }

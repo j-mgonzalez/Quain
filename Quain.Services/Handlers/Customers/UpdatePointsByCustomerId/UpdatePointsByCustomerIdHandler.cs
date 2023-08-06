@@ -20,7 +20,7 @@
         {
             var customer = await _customersRepository.GetCustomerById(request.CustomerId, cancellationToken);
 
-            customer.UpdatePoints(request.PointsInput.Amount, request.PointsInput.NComp);
+            customer.UpdatePoints(request.PointsInput.Amount * -1, request.PointsInput.NComp);
 
             var customerResult = await _customersRepository.Update(customer, cancellationToken);
 

@@ -10,8 +10,7 @@
 
         public Customer Customer { get; private set; }
 
-        [Precision(10, 2)]
-        public decimal CurrentValue { get; private set; }
+        public int CurrentValue { get; private set; }
 
         public ICollection<PointsChanges> PointsChanges { get; private set; }
 
@@ -24,7 +23,7 @@
             
         }
 
-        public Points(decimal currentValue, string ncomp)
+        public Points(int currentValue, string ncomp)
         {
             CurrentValue = currentValue;
             CreatedDate = DateTimeOffset.UtcNow;
@@ -32,7 +31,7 @@
             this.AddChange(new PointsChanges(currentValue, ncomp));
         }
 
-        public void UpdatePoints(decimal amount, string ncomp)
+        public void UpdatePoints(int amount, string ncomp)
         {
             CurrentValue += amount;
             LastUpdate = DateTimeOffset.UtcNow;

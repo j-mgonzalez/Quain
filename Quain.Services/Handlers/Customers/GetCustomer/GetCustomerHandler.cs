@@ -9,13 +9,11 @@
     {
         private readonly ICustomersRepository _customersRepository;
         private readonly IMapper _mapper;
-        private readonly IMediator _mediator;
 
-        public GetCustomerHandler(ICustomersRepository customersRepository, IMapper mapper, IMediator mediator)
+        public GetCustomerHandler(ICustomersRepository customersRepository, IMapper mapper)
         {
             _customersRepository = customersRepository;
             _mapper = mapper;
-            _mediator = mediator;
         }
         public async Task<GetCustomerResponse> Handle(GetCustomerCommand request, CancellationToken cancellationToken)
         {

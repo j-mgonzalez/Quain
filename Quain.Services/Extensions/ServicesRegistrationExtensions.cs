@@ -1,6 +1,7 @@
 ﻿namespace Quain.Services.Extensions
 {
     using FluentValidation;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +18,7 @@
             services.AddDbContext<QuainRadioContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnectionQuain_Radio")));
 
             services.AddDbContext<QuainPointsContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnectionQuainPoints")));
+            
 
             var assembly = Assembly.GetExecutingAssembly();
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assembly));

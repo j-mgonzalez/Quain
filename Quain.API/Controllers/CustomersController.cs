@@ -1,6 +1,7 @@
 ﻿namespace Quain.API.Controllers
 {
     using MediatR;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Quain.Services.Handlers.Customers.CreateCustomer;
     using Quain.Services.Handlers.Customers.GetCustomer;
@@ -9,7 +10,7 @@
     using Quain.Services.Inputs;
 
     [Route("[controller]")]
-    //[Authorize]
+    [Authorize]
     [ApiController]
     public class CustomersController : Controller
     {

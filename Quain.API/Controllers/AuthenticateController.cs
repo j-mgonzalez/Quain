@@ -77,7 +77,22 @@
             if (!result.Succeeded)
                 return StatusCode(StatusCodes.Status500InternalServerError, new LoginResponse { Message = "User creation failed! Please check user details and try again." });
 
-            return Ok(new LoginResponse { UserName = user.UserName, Message = "User created successfully!" });
+			var authClaims = new List<Claim>
+				{
+					new Claim(ClaimTypes.Name, user.UserName),
+					new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+				};
+
+			var userRoles = await _userManager.GetRolesAsync(user);
+
+			foreach (var userRole in userRoles)
+			{
+				authClaims.Add(new Claim(ClaimTypes.Role, userRole));
+			}
+
+			var token = GetToken(authClaims);
+
+			return Ok(new LoginResponse { Token = new JwtSecurityTokenHandler().WriteToken(token), UserName = user.UserName, Message = "User created successfully!" });
         }
 
         [HttpPost]
@@ -107,16 +122,32 @@
             {
                 await _userManager.AddToRoleAsync(user, UserRoles.Admin);
             }
-            if (await _roleManager.RoleExistsAsync(UserRoles.Admin))
+            if (await _roleManager.RoleExistsAsync(UserRoles.User))
             {
                 await _userManager.AddToRoleAsync(user, UserRoles.User);
             }
-            return Ok(new LoginResponse { UserName = user.UserName, Message = "User created successfully!" });
+
+			var authClaims = new List<Claim>
+				{
+					new Claim(ClaimTypes.Name, user.UserName),
+					new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+				};
+
+			var userRoles = await _userManager.GetRolesAsync(user);
+
+			foreach (var userRole in userRoles)
+			{
+				authClaims.Add(new Claim(ClaimTypes.Role, userRole));
+			}
+
+			var token = GetToken(authClaims);
+
+			return Ok(new LoginResponse { Token = new JwtSecurityTokenHandler().WriteToken(token), UserName = user.UserName, Message = "User created successfully!" });
         }
 
         private JwtSecurityToken GetToken(List<Claim> authClaims)
         {
-            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Secret"]));
 
             var token = new JwtSecurityToken(
                 issuer: _configuration["JWT:ValidIssuer"],

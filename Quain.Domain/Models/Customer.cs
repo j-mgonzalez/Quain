@@ -22,5 +22,8 @@
             Points.UpdatePoints(amout, ncomp);
         }
 
+        public bool BillWasUsed(string billNumber)
+            => Points.PointsChanges.Any(p => p.BillNumber == billNumber);
+
     }
 }

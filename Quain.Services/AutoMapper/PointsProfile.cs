@@ -9,11 +9,13 @@
     {
         public PointsProfile()
         {
-            CreateMap<Points, DTO.PointsDto>()
+            CreateMap<Points, PointsDto>()
                 .ForMember(dest => dest.Amount, opt => opt.MapFrom(src => src.CurrentValue));
 
-            CreateMap<Inputs.PointsInput, Points>()
-                .ForMember(dest => dest.CurrentValue, opt => opt.MapFrom(src => src.Amount));
-        }
+			CreateMap<PointsInput, Points>()
+				.ForMember(dest => dest.CurrentValue, opt => opt.MapFrom(src => src.Amount));
+
+            CreateMap<PointsChanges, PointsChangesDto>();
+		}
     }
 }

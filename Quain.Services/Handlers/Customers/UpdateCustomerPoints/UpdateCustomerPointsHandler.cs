@@ -23,7 +23,9 @@
         {
             var customer = await _customersRepository.GetCustomer(request.CodClient, cancellationToken);
 
-            if (customer == null) throw new ApplicationException("Customer not found");
+            if (customer == null) throw new ApplicationException("Cliente no encontrado.");
+
+            if (customer.BillWasUsed(request.NComp)) throw new ApplicationException("Esta factura ya fue utilizada.");
 
             var sale = await _salesRepository.GetSale(request.NComp);
 

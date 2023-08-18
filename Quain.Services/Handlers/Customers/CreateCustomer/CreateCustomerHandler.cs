@@ -3,6 +3,7 @@
     using global::AutoMapper;
     using MediatR;
     using Quain.Domain.Models;
+    using Quain.Repository;
     using Quain.Repository.Clients;
     using Quain.Repository.Customers;
     using Quain.Repository.Sales;
@@ -11,13 +12,15 @@
     public class CreateCustomerHandler : IRequestHandler<CreateCustomerCommand, CreateCustomerResponse>
     {
         private readonly ICustomersRepository _customersRepository;
+        private readonly IPointsChangeRepository _pointsChangeRepository;
         private readonly IClientRepository _clientRepository;
         private readonly ISalesRepository _salesRepository;
         private readonly IMapper _mapper;
 
-        public CreateCustomerHandler(ICustomersRepository customersRepository, IClientRepository clientRepository, ISalesRepository salesRepository, IMapper mapper)
+        public CreateCustomerHandler(ICustomersRepository customersRepository, IPointsChangeRepository pointsChangeRepository, IClientRepository clientRepository, ISalesRepository salesRepository, IMapper mapper)
         {
             _customersRepository = customersRepository;
+            _pointsChangeRepository = pointsChangeRepository;
             _clientRepository = clientRepository;
             _salesRepository = salesRepository;
             _mapper = mapper;
@@ -28,12 +31,16 @@
 
             if (customer != null) return CreateCustomerResponse.With(_mapper.Map<CustomerDto>(customer));
 
+            var billWasUsed = await _pointsChangeRepository.BillNumberWasUsed(request.NComp);
+
+            if (billWasUsed) throw new ApplicationException($"La factura {request.NComp} ya fue utilizada previamente.");
+
             var client = await _clientRepository.GetClientByCodClient(request.CodClient);
 
-            var sale = await _salesRepository.GetSale(request.NComp);
+            var sale = await _salesRepository.GetSale(request.NComp, request.CodClient);
             
             var newCustomer = _mapper.Map<Client, Customer>(client, 
-                opt => opt.AfterMap((_, dest) => dest.SetPoints(ConverToInt(sale.TotalFacturado), request.NComp)));
+                opt => opt.AfterMap((_, dest) => dest.SetPoints(ConverToInt(sale.Importe), request.NComp)));
             
             var customerResult = await _customersRepository.Add(newCustomer, cancellationToken);
 

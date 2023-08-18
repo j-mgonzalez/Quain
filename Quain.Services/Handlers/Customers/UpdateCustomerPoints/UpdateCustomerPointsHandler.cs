@@ -2,7 +2,7 @@
 {
     using global::AutoMapper;
     using MediatR;
-    using Quain.Repository.Clients;
+    using Quain.Repository;
     using Quain.Repository.Customers;
     using Quain.Repository.Sales;
     using Quain.Services.DTO;
@@ -10,12 +10,14 @@
     public class UpdateCustomerPointsHandler : IRequestHandler<UpdateCustomerPointsCommand, UpdateCustomerPointsResponse>
     {
         private readonly ICustomersRepository _customersRepository;
+        private readonly IPointsChangeRepository _pointsChangeRepository;
         private readonly ISalesRepository _salesRepository;
         private readonly IMapper _mapper;
 
-        public UpdateCustomerPointsHandler(ICustomersRepository customersRepository, ISalesRepository salesRepository, IMapper mapper)
+        public UpdateCustomerPointsHandler(ICustomersRepository customersRepository, IPointsChangeRepository pointsChangeRepository, ISalesRepository salesRepository, IMapper mapper)
         {
             _customersRepository = customersRepository;
+            _pointsChangeRepository = pointsChangeRepository;
             _salesRepository = salesRepository;
             _mapper = mapper;
         }
@@ -23,13 +25,15 @@
         {
             var customer = await _customersRepository.GetCustomer(request.CodClient, cancellationToken);
 
-            if (customer == null) throw new ApplicationException("Cliente no encontrado.");
+            if (customer == null) throw new ApplicationException($"El cliente {request.CodClient} no fue encontrado.");
 
-            if (customer.BillWasUsed(request.NComp)) throw new ApplicationException("Esta factura ya fue utilizada.");
+            var billWasUsed = await _pointsChangeRepository.BillNumberWasUsed(request.NComp);
 
-            var sale = await _salesRepository.GetSale(request.NComp);
+            if (billWasUsed) throw new ApplicationException($"La factura {request.NComp} ya fue utilizada previamente.");
 
-            customer.UpdatePoints(ConverToInt(sale.TotalFacturado), request.NComp);
+            var sale = await _salesRepository.GetSale(request.NComp, request.CodClient);
+
+            customer.UpdatePoints(ConverToInt(sale.Importe), request.NComp);
 
             var customerResult = await _customersRepository.Update(customer, cancellationToken);
 
@@ -38,6 +42,6 @@
             return UpdateCustomerPointsResponse.With(customerModel);
         }
 
-        private int ConverToInt(decimal value) => Decimal.ToInt32(value);
+        private int ConverToInt(decimal value) => decimal.ToInt32(value);
     }
 }

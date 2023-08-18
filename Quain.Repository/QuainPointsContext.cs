@@ -15,6 +15,8 @@ public partial class QuainPointsContext : DbContext
     }
     public DbSet<Customer> Customers { get; set; }
 
+    public virtual DbSet<PointsChanges> PointsChanges { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Customer>()

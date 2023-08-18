@@ -2,8 +2,8 @@
 {
     public class PointsInput
     {
-        public int Amount { get; set; }
-
         public string NComp { get; set; }
+
+        public string CodClient { get; set; }
     }
 }

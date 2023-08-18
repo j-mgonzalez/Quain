@@ -31,7 +31,7 @@
                 .Include(c => c.Points)
                     .ThenInclude(p => p.PointsChanges)
                 .Where(c => c.Id == id).FirstOrDefaultAsync()
-                ?? throw new ApplicationException("Customer not found");
+                ?? throw new ApplicationException("El cliente no fue encontrado.");
 
         public async Task<Customer> Update(Customer customer, CancellationToken cancellationToken)
         {

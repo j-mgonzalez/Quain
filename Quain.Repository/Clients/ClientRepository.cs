@@ -15,6 +15,6 @@
 
         public async Task<Client> GetClientByCodClient(string codClient)
             => await _context.FN_GetClientByCodClient(codClient).FirstOrDefaultAsync()
-                ?? throw new ApplicationException("Client not found");
+                ?? throw new ApplicationException($"El cliente {codClient} no existe.");
     }
 }

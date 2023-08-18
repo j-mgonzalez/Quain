@@ -4,6 +4,7 @@ namespace Quain.API
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.IdentityModel.Tokens;
+    using Quain.API.Middlewares;
     using Quain.Repository;
     using Quain.Services.Extensions;
     using System.Configuration;
@@ -69,6 +70,7 @@ namespace Quain.API
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 
             app.MapControllers();
 

@@ -19,8 +19,6 @@
         {
             var customer = await _customersRepository.GetCustomer(request.CodClient, cancellationToken);
 
-            if (customer == null) return GetCustomerResponse.With(null);
-
             var customerModel = _mapper.Map<CustomerDto>(customer);
 
             return GetCustomerResponse.With(customerModel);

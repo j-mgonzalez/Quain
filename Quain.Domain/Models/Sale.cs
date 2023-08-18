@@ -7,6 +7,6 @@
     {
         public string N_COMP { get; set; }
 
-        public decimal TotalFacturado { get; set; }
+        public int Importe { get; set; }
     }
 }

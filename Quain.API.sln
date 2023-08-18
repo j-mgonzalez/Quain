@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33502.453
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quain.API", "Quain.API\Quain.API.csproj", "{FCD08145-68F6-47A9-918F-2BD9D4DEBAAD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Quain.API", "Quain.API\Quain.API.csproj", "{FCD08145-68F6-47A9-918F-2BD9D4DEBAAD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quain.UT", "Quain.UT\Quain.UT.csproj", "{67E4D0D4-B49A-4B58-9959-8BD282564DAB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Quain.UT", "Quain.UT\Quain.UT.csproj", "{67E4D0D4-B49A-4B58-9959-8BD282564DAB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quain.Services", "Quain.Services\Quain.Services.csproj", "{8AA80F0F-3100-46A9-8EB7-07D50FA069EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Quain.Services", "Quain.Services\Quain.Services.csproj", "{8AA80F0F-3100-46A9-8EB7-07D50FA069EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quain.Domain", "Quain.Domain\Quain.Domain.csproj", "{9A0A9188-4BFB-4AC1-9064-C72CF0698EFC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Quain.Domain", "Quain.Domain\Quain.Domain.csproj", "{9A0A9188-4BFB-4AC1-9064-C72CF0698EFC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quain.Repository", "Quain.Repository\Quain.Repository.csproj", "{95C43CE1-C633-4B56-8755-0BE908163A69}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Quain.Repository", "Quain.Repository\Quain.Repository.csproj", "{95C43CE1-C633-4B56-8755-0BE908163A69}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

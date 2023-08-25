@@ -14,8 +14,8 @@ namespace Quain.Repository.Sales
 
         }
 
-        public async Task<Sale> GetSale(string nComp, string codClient)
-            => await _context.FN_GetBillAmountByNCompAndCodClient(nComp, codClient).FirstOrDefaultAsync() 
-                ?? throw new ApplicationException($"La factura {nComp} no fue emitida para el cliente {codClient}.");
+        public async Task<Sale> GetSale(string nComp)
+            => await _context.FN_GetBillAmountByNComp(nComp).FirstOrDefaultAsync() 
+                ?? throw new ApplicationException($"La factura {nComp} no existe.");
     }
 }

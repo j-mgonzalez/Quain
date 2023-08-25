@@ -1,7 +1,6 @@
 ﻿namespace Quain.Services.Handlers.Customers.CreateCustomer
 {
     using MediatR;
-    using Quain.Services.Inputs;
 
     public class CreateCustomerCommand : IRequest<CreateCustomerResponse>
     {
@@ -9,13 +8,22 @@
 
         public string NComp { get; set; }
 
-        private CreateCustomerCommand(string codClient, string nComp)
+        public string UpdatedBy { get; set; }
+
+        public string Name { get; set; }
+
+        public string Cuit { get; set; }
+
+        private CreateCustomerCommand(string codClient, string nComp, string updatedBy, string name, string cuit)
         {
             CodClient = codClient;
             NComp = nComp;
+            UpdatedBy = updatedBy;
+            Name = name;
+            Cuit = cuit;
         }
 
-        public static CreateCustomerCommand From(string codClient, string nComp) 
-            => new CreateCustomerCommand(codClient, nComp);
+        public static CreateCustomerCommand From(string codClient, string nComp, string updatedBy, string name, string cuit) 
+            => new CreateCustomerCommand(codClient, nComp, updatedBy, name, cuit);
     }
 }

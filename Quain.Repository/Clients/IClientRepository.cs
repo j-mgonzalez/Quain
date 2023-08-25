@@ -4,6 +4,6 @@
 
     public interface IClientRepository
     {
-        Task<Client> GetClientByCodClient(string codClient);
+        Task<Client> GetClientByCodClientCuitName(string codClient, string name, string cuit);
     }
 }

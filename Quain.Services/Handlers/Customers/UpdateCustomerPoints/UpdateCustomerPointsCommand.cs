@@ -1,7 +1,6 @@
 ﻿namespace Quain.Services.Handlers.Customers.UpdateCustomerPoints
 {
     using MediatR;
-    using Quain.Services.Inputs;
 
     public class UpdateCustomerPointsCommand : IRequest<UpdateCustomerPointsResponse>
     {
@@ -9,13 +8,16 @@
 
         public string NComp { get; set; }
 
-        private UpdateCustomerPointsCommand(string codClient, string ncomp)
+        public string UpdatedBy { get; set; }
+
+        private UpdateCustomerPointsCommand(string codClient, string ncomp, string updatedBy)
         {
             CodClient = codClient;
             NComp = ncomp;
+            UpdatedBy = updatedBy;
         }
 
-        public static UpdateCustomerPointsCommand From(string codClient, string ncomp) 
-            => new UpdateCustomerPointsCommand(codClient, ncomp);
+        public static UpdateCustomerPointsCommand From(string codClient, string ncomp, string updatedBy) 
+            => new UpdateCustomerPointsCommand(codClient, ncomp, updatedBy);
     }
 }

@@ -9,13 +9,16 @@
 
         public PointsInput PointsInput { get; set; }
 
-        private UpdatePointsByCustomerIdCommand(Guid customerId, PointsInput pointsInput)
+        public string UpdatedBy { get; set; }
+
+        private UpdatePointsByCustomerIdCommand(Guid customerId, PointsInput pointsInput, string updatedBy)
         {
             CustomerId = customerId;
             PointsInput = pointsInput;
+            UpdatedBy = updatedBy;
         }
 
-        public static UpdatePointsByCustomerIdCommand From(Guid customerId, PointsInput pointsInput) 
-            => new UpdatePointsByCustomerIdCommand(customerId, pointsInput);
+        public static UpdatePointsByCustomerIdCommand From(Guid customerId, PointsInput pointsInput, string updatedBy) 
+            => new UpdatePointsByCustomerIdCommand(customerId, pointsInput, updatedBy);
     }
 }

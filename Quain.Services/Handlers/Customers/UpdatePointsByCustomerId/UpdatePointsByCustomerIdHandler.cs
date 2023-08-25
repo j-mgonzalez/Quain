@@ -2,36 +2,26 @@
 {
     using global::AutoMapper;
     using MediatR;
-    using Quain.Repository;
     using Quain.Repository.Customers;
-    using Quain.Repository.Sales;
     using Quain.Services.DTO;
 
     public class UpdatePointsByCustomerIdHandler : IRequestHandler<UpdatePointsByCustomerIdCommand, UpdatePointsByCustomerIdResponse>
     {
         private readonly ICustomersRepository _customersRepository;
-        private readonly IPointsChangeRepository _pointsChangeRepository;
-        private readonly ISalesRepository _salesRepository;
         private readonly IMapper _mapper;
 
-        public UpdatePointsByCustomerIdHandler(ICustomersRepository customersRepository, IPointsChangeRepository pointsChangeRepository, ISalesRepository salesRepository, IMapper mapper)
+        public UpdatePointsByCustomerIdHandler(ICustomersRepository customersRepository, IMapper mapper)
         {
             _customersRepository = customersRepository;
-            _pointsChangeRepository = pointsChangeRepository;
-            _salesRepository = salesRepository;
             _mapper = mapper;
         }
         public async Task<UpdatePointsByCustomerIdResponse> Handle(UpdatePointsByCustomerIdCommand request, CancellationToken cancellationToken)
         {
             var customer = await _customersRepository.GetCustomerById(request.CustomerId, cancellationToken);
 
-            var billWasUsed = await _pointsChangeRepository.BillNumberWasUsed(request.PointsInput.NComp);
+            if (request.PointsInput.PointsToUse > customer.Points.CurrentValue) throw new ApplicationException("No posee puntos suficientes realizar la transacción.");
 
-            if (billWasUsed) throw new ApplicationException($"La factura {request.PointsInput.NComp} ya fue utilizada previamente.");
-
-            var sale = await _salesRepository.GetSale(request.PointsInput.NComp, request.PointsInput.CodClient);
-
-            customer.UpdatePoints(sale.Importe, sale.N_COMP);
+            customer.UpdatePoints(request.PointsInput.PointsToUse * -1, request.UpdatedBy);
 
             var customerResult = await _customersRepository.Update(customer, cancellationToken);
 

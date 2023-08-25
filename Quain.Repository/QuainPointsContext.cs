@@ -13,6 +13,12 @@ public partial class QuainPointsContext : DbContext
         : base(options)
     {
     }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.EnableSensitiveDataLogging();
+    }
+
     public DbSet<Customer> Customers { get; set; }
 
     public virtual DbSet<PointsChanges> PointsChanges { get; set; }

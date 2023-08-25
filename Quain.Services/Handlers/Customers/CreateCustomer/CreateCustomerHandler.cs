@@ -27,7 +27,11 @@
         }
         public async Task<CreateCustomerResponse> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
         {
-            var customer = await _customersRepository.GetCustomer(request.CodClient, cancellationToken);
+            var customer = await _customersRepository.GetCustomer( 
+                request.CodClient ?? "", 
+                request.Cuit ?? "", 
+                request.Name ?? "",
+                cancellationToken);
 
             if (customer != null) return CreateCustomerResponse.With(_mapper.Map<CustomerDto>(customer));
 
@@ -35,12 +39,12 @@
 
             if (billWasUsed) throw new ApplicationException($"La factura {request.NComp} ya fue utilizada previamente.");
 
-            var client = await _clientRepository.GetClientByCodClient(request.CodClient);
+            var client = await _clientRepository.GetClientByCodClientCuitName(request.CodClient ?? "", request.Name ?? "", request.Cuit ?? "");
 
-            var sale = await _salesRepository.GetSale(request.NComp, request.CodClient);
+            var sale = await _salesRepository.GetSale(request.NComp);
             
             var newCustomer = _mapper.Map<Client, Customer>(client, 
-                opt => opt.AfterMap((_, dest) => dest.SetPoints(ConverToInt(sale.Importe), request.NComp)));
+                opt => opt.AfterMap((_, dest) => dest.SetPoints(ConverToInt(sale.Importe), request.UpdatedBy, request.NComp)));
             
             var customerResult = await _customersRepository.Add(newCustomer, cancellationToken);
 

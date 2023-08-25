@@ -12,14 +12,14 @@
 
         public Points Points { get; private set; }
 
-        public void SetPoints(int points, string ncomp)
+        public void SetPoints(int points, string updatedBy, string ncomp)
         {
-            Points = new Points(points, ncomp);
+            Points = new Points(points, updatedBy, ncomp);
         }
 
-        public void UpdatePoints(int amout, string ncomp)
+        public void UpdatePoints(int amout, string updatedBy, string ncomp = null)
         {
-            Points.UpdatePoints(amout, ncomp);
+            Points.UpdatePoints(amout, updatedBy, ncomp);
         }
 
         public bool BillWasUsed(string billNumber)

@@ -23,20 +23,20 @@
             
         }
 
-        public Points(int currentValue, string ncomp)
+        public Points(int currentValue, string updatedBy, string ncomp)
         {
             CurrentValue = currentValue;
             CreatedDate = DateTimeOffset.UtcNow;
 
-            this.AddChange(new PointsChanges(currentValue, ncomp));
+            this.AddChange(new PointsChanges(currentValue, updatedBy, ncomp));
         }
 
-        public void UpdatePoints(int amount, string ncomp)
+        public void UpdatePoints(int amount, string updatedBy, string ncomp = null)
         {
             CurrentValue += amount;
             LastUpdate = DateTimeOffset.UtcNow;
 
-            this.AddChange(new PointsChanges(amount, ncomp));
+            this.AddChange(new PointsChanges(amount, updatedBy, ncomp));
         }
 
         public void AddChange(PointsChanges pointsChange)

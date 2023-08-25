@@ -1,6 +1,7 @@
 ﻿namespace Quain.Repository.Customers
 {
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.IdentityModel.Tokens;
     using Quain.Domain.Models;
 
     public class CustomersRepository : ICustomersRepository
@@ -20,11 +21,30 @@
             return customer;
         }
 
+        public async Task<IEnumerable<Customer>> GetCustomers(string codClient, string cuit, string name, CancellationToken cancellationToken)
+            => await _context.Customers
+                .Include(c => c.Points)
+                    .ThenInclude(p => p.PointsChanges)
+                .Where(c => (c.CodClient != "" && c.CodClient == codClient)
+                || (c.CUIT != "" && c.CUIT.Replace("-", "") == cuit) 
+                || (c.Name != "" && c.Name.ToLower().Contains(name.ToLower())))
+            .ToListAsync();
+
+        public async Task<Customer> GetCustomer(string codClient, string cuit, string name, CancellationToken cancellationToken)
+            => await _context.Customers
+                .Include(c => c.Points)
+                    .ThenInclude(p => p.PointsChanges)
+                .Where(c => (c.CodClient != "" && c.CodClient == codClient) 
+                || (c.CUIT != "" && c.CUIT.Replace("-", "") == cuit) 
+                || (c.Name != "" && c.Name.ToLower().Contains(name.ToLower())))
+            .FirstOrDefaultAsync(cancellationToken);
+
         public async Task<Customer> GetCustomer(string codClient, CancellationToken cancellationToken)
             => await _context.Customers
                 .Include(c => c.Points)
                     .ThenInclude(p => p.PointsChanges)
-                .Where(c => c.CodClient == codClient).FirstOrDefaultAsync();
+                .Where(c => c.CodClient == codClient)
+            .FirstOrDefaultAsync(cancellationToken);
 
         public async Task<Customer> GetCustomerById(Guid id, CancellationToken cancellationToken)
             => await _context.Customers

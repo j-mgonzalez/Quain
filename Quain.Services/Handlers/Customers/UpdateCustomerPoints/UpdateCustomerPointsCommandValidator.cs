@@ -11,6 +11,9 @@
 
             RuleFor(x => x.CodClient)
                 .NotEmpty();
+
+            RuleFor(x => x.UpdatedBy)
+                .NotEmpty();
         }
     }
 }

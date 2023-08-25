@@ -1,7 +1,5 @@
 ﻿namespace Quain.Domain.Models
 {
-    using Microsoft.EntityFrameworkCore;
-
     public class PointsChanges
     {
         public Guid PointsChangesId { get; private set; }
@@ -12,13 +10,16 @@
 
         public DateTimeOffset ChangeDate { get; private set; }
 
-        public string BillNumber { get; private set; }
+        public string? BillNumber { get; private set; }
 
-        public PointsChanges(int amount, string billNumber)
+        public string UpdatedBy { get; set; }
+
+        public PointsChanges(int amount, string updatedBy, string billNumber = null)
         {
             ChangeDate = DateTimeOffset.UtcNow;
             Amount = amount;
             BillNumber = billNumber;
+            UpdatedBy = updatedBy;
         }
 
     }

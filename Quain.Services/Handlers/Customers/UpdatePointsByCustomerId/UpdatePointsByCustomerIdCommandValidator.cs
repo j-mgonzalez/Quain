@@ -9,7 +9,10 @@
             RuleFor(x => x.CustomerId)
                 .NotEmpty();
 
-            RuleFor(x => x.PointsInput.NComp)
+            RuleFor(x => x.UpdatedBy)
+                .NotEmpty();
+
+            RuleFor(x => x.PointsInput.PointsToUse)
                 .NotEmpty();
         }
     }

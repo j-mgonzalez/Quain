@@ -7,5 +7,7 @@
 		public DateTimeOffset ChangeDate { get; set; }
 
 		public string BillNumber { get; set; }
-	}
+
+        public string UpdatedBy { get; set; }
+    }
 }

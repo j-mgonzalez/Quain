@@ -31,9 +31,9 @@
 
             if (billWasUsed) throw new ApplicationException($"La factura {request.NComp} ya fue utilizada previamente.");
 
-            var sale = await _salesRepository.GetSale(request.NComp, request.CodClient);
+            var sale = await _salesRepository.GetSale(request.NComp);
 
-            customer.UpdatePoints(ConverToInt(sale.Importe), request.NComp);
+            customer.UpdatePoints(ConverToInt(sale.Importe), request.UpdatedBy, request.NComp);
 
             var customerResult = await _customersRepository.Update(customer, cancellationToken);
 

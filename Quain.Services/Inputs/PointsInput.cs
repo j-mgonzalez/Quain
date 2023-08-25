@@ -2,7 +2,7 @@
 {
     public class PointsInput
     {
-        public string NComp { get; set; }
+        public int PointsToUse { get; set; }
 
         public string CodClient { get; set; }
     }

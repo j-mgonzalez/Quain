@@ -13,8 +13,8 @@
             _context = context;
         }
 
-        public async Task<Client> GetClientByCodClient(string codClient)
-            => await _context.FN_GetClientByCodClient(codClient).FirstOrDefaultAsync()
-                ?? throw new ApplicationException($"El cliente {codClient} no existe.");
+        public async Task<Client> GetClientByCodClientCuitName(string codClient, string name, string cuit)
+            => await _context.FN_GetClientByCodClientCuitName(codClient, cuit, name).FirstOrDefaultAsync()
+                ?? throw new ApplicationException($"El cliente {codClient} {name} {cuit} no existe.");
     }
 }

@@ -24,17 +24,25 @@ public partial class QuainRadioContext : DbContext
     public IQueryable<Client> FN_GetClientByCodClientCuitName(string codClient, string cuit, string name)
         => FromExpression(() => FN_GetClientByCodClientCuitName(codClient, cuit, name));
 
+    [DbFunction(Name = "FN_GetClientsClassified", Schema = "dbo", IsBuiltIn = false)]
+    public IQueryable<ClientClassified> FN_GetClientsClassified()
+        => FromExpression(() => FN_GetClientsClassified());
+
     [DbFunction(Name = "FN_GetBillAmountByNComp", Schema = "dbo", IsBuiltIn = false)]
     public IQueryable<Sale> FN_GetBillAmountByNComp(string n_comp)
         => FromExpression(() => FN_GetBillAmountByNComp(n_comp));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        //modelBuilder.Entity<Client>().ToFunction(nameof(FN_GetClientByCodClient));
+        modelBuilder.Entity<Client>().ToFunction(nameof(FN_GetClientByCodClientCuitName));
 
-        //modelBuilder.Entity<Sale>().ToFunction(nameof(FN_GetBillAmountByNCompAndCodClient));
+        modelBuilder.Entity<Sale>().ToFunction(nameof(FN_GetBillAmountByNComp));
+
+        modelBuilder.Entity<ClientClassified?>().ToFunction(nameof(FN_GetClientsClassified));
 
         modelBuilder.HasDbFunction(typeof(QuainRadioContext).GetMethod(nameof(FN_GetClientByCodClientCuitName), new[] { typeof(string), typeof(string), typeof(string) }));
+
+        modelBuilder.HasDbFunction(typeof(QuainRadioContext).GetMethod(nameof(FN_GetClientsClassified)));
 
         modelBuilder.HasDbFunction(typeof(QuainRadioContext).GetRuntimeMethod(nameof(FN_GetBillAmountByNComp), new[] { typeof(string) }));
     }

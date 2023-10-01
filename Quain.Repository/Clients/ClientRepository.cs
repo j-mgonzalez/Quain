@@ -16,5 +16,12 @@
         public async Task<Client> GetClientByCodClientCuitName(string codClient, string name, string cuit)
             => await _context.FN_GetClientByCodClientCuitName(codClient, cuit, name).FirstOrDefaultAsync()
                 ?? throw new ApplicationException($"El cliente {codClient} {name} {cuit} no existe.");
+
+        public async Task<IEnumerable<ClientClassified>> GetClientsClassified()
+        {
+            var foo = _context.FN_GetClientsClassified();
+
+            return await foo.ToListAsync();
+        }
     }
 }

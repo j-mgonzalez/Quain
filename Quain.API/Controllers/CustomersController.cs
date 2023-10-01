@@ -5,6 +5,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Quain.Services.Handlers.Customers.CreateCustomer;
     using Quain.Services.Handlers.Customers.GetCustomers;
+    using Quain.Services.Handlers.Customers.GetCustomersClassified;
     using Quain.Services.Handlers.Customers.UpdateCustomerPoints;
     using Quain.Services.Handlers.Customers.UpdatePointsByCustomerId;
     using Quain.Services.Inputs;
@@ -30,6 +31,17 @@
         public async Task<ActionResult<GetCustomersResponse>> GetCustomers([FromQuery] string? codClient, [FromQuery] string? name, [FromQuery] string? cuit, CancellationToken cancellationToken)
         {
             var response = await _mediator.Send(GetCustomersCommand.From(codClient, name, cuit), cancellationToken);
+            return Ok(response);
+        }
+
+        [HttpGet("Classified")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<GetCustomersResponse>> GetCustomersClassified(CancellationToken cancellationToken)
+        {
+            var response = await _mediator.Send(GetCustomersClassifiedCommand.From(), cancellationToken);
             return Ok(response);
         }
 

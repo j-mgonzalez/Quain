@@ -39,7 +39,7 @@
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<GetCustomersResponse>> GetCustomersClassified(CancellationToken cancellationToken)
+        public async Task<ActionResult<GetCustomersClassifiedResponse>> GetCustomersClassified(CancellationToken cancellationToken)
         {
             var response = await _mediator.Send(GetCustomersClassifiedCommand.From(), cancellationToken);
             return Ok(response);

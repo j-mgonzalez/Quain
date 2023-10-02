@@ -5,6 +5,7 @@
     public class GetCustomersClassifiedResponse
     {
         public IEnumerable<ClientClassifiedDTO> ClientsDtos { get; set; }
+
         private GetCustomersClassifiedResponse(IEnumerable<ClientClassifiedDTO> clientsDtos)
         {
             ClientsDtos = clientsDtos;

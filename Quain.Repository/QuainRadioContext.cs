@@ -34,11 +34,11 @@ public partial class QuainRadioContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Client>().ToFunction(nameof(FN_GetClientByCodClientCuitName));
+        //modelBuilder.Entity<Client>().ToFunction(nameof(FN_GetClientByCodClientCuitName));
 
-        modelBuilder.Entity<Sale>().ToFunction(nameof(FN_GetBillAmountByNComp));
+        //modelBuilder.Entity<Sale>().ToFunction(nameof(FN_GetBillAmountByNComp));
 
-        modelBuilder.Entity<ClientClassified?>().ToFunction(nameof(FN_GetClientsClassified));
+        //modelBuilder.Entity<ClientClassified?>().ToFunction(nameof(FN_GetClientsClassified));
 
         modelBuilder.HasDbFunction(typeof(QuainRadioContext).GetMethod(nameof(FN_GetClientByCodClientCuitName), new[] { typeof(string), typeof(string), typeof(string) }));
 

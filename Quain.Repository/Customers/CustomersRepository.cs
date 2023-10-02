@@ -25,19 +25,23 @@
             => await _context.Customers
                 .Include(c => c.Points)
                     .ThenInclude(p => p.PointsChanges)
-                .Where(c => (c.CodClient != "" && c.CodClient == codClient)
-                || (c.CUIT != "" && c.CUIT.Replace("-", "") == cuit) 
-                || (c.Name != "" && c.Name.ToLower().Contains(name.ToLower())))
+                .Where(c => (codClient != "" && c.CodClient == codClient)
+                || (cuit != "" && c.CUIT.Replace("-", "") == cuit) 
+                || (name != "" && c.Name.ToLower().Contains(name.ToLower())))
             .ToListAsync();
 
         public async Task<Customer> GetCustomer(string codClient, string cuit, string name, CancellationToken cancellationToken)
-            => await _context.Customers
+        {
+            var foo = _context.Customers
                 .Include(c => c.Points)
                     .ThenInclude(p => p.PointsChanges)
-                .Where(c => (c.CodClient != "" && c.CodClient == codClient) 
-                || (c.CUIT != "" && c.CUIT.Replace("-", "") == cuit) 
-                || (c.Name != "" && c.Name.ToLower().Contains(name.ToLower())))
+                .Where(c => (codClient != "" && c.CodClient == codClient)
+                || (cuit != "" && c.CUIT.Replace("-", "") == cuit)
+                || (name != "" && c.Name.ToLower().Contains(name.ToLower())));
+
+            return await foo
             .FirstOrDefaultAsync(cancellationToken);
+        }
 
         public async Task<Customer> GetCustomer(string codClient, CancellationToken cancellationToken)
             => await _context.Customers

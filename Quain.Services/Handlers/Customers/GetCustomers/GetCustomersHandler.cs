@@ -23,6 +23,8 @@
                 request.Name ?? "", 
                 cancellationToken);
 
+            if (customer == null) return GetCustomersResponse.With();
+
             var customersModel = _mapper.Map<IEnumerable<CustomerDto>>(customer);
 
             return GetCustomersResponse.With(customersModel);

@@ -6,6 +6,7 @@
     using Quain.Repository.Customers;
     using Quain.Repository.Sales;
     using Quain.Services.DTO;
+    using System.Net;
 
     public class UpdateCustomerPointsHandler : IRequestHandler<UpdateCustomerPointsCommand, UpdateCustomerPointsResponse>
     {
@@ -25,13 +26,15 @@
         {
             var customer = await _customersRepository.GetCustomer(request.CodClient, cancellationToken);
 
-            if (customer == null) throw new ApplicationException($"El cliente {request.CodClient} no fue encontrado.");
+            if (customer is null) return UpdateCustomerPointsResponse.With($"El cliente {request.CodClient} no fue encontrado.", HttpStatusCode.NoContent);
 
             var billWasUsed = await _pointsChangeRepository.BillNumberWasUsed(request.NComp);
 
-            if (billWasUsed) throw new ApplicationException($"La factura {request.NComp} ya fue utilizada previamente.");
+            if (billWasUsed) return UpdateCustomerPointsResponse.With($"La factura {request.NComp} ya fue utilizada previamente.", HttpStatusCode.BadRequest);
 
             var sale = await _salesRepository.GetSale(request.NComp);
+
+            if (sale is null) return UpdateCustomerPointsResponse.With($"No se encontró la factura \"{request.NComp}\".", HttpStatusCode.NoContent);
 
             customer.UpdatePoints(ConverToInt(sale.Importe), request.UpdatedBy, request.NComp);
 

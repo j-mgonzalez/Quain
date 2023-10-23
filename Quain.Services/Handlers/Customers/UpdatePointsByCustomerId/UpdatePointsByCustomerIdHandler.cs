@@ -4,8 +4,9 @@
     using MediatR;
     using Quain.Repository.Customers;
     using Quain.Services.DTO;
+	using System.Net;
 
-    public class UpdatePointsByCustomerIdHandler : IRequestHandler<UpdatePointsByCustomerIdCommand, UpdatePointsByCustomerIdResponse>
+	public class UpdatePointsByCustomerIdHandler : IRequestHandler<UpdatePointsByCustomerIdCommand, UpdatePointsByCustomerIdResponse>
     {
         private readonly ICustomersRepository _customersRepository;
         private readonly IMapper _mapper;
@@ -19,7 +20,7 @@
         {
             var customer = await _customersRepository.GetCustomerById(request.CustomerId, cancellationToken);
 
-            if (request.PointsInput.PointsToUse > customer.Points.CurrentValue) throw new ApplicationException("No posee puntos suficientes realizar la transacción.");
+            if (request.PointsInput.PointsToUse > customer.Points.CurrentValue) return UpdatePointsByCustomerIdResponse.With("No posee puntos suficientes realizar la transacción.", HttpStatusCode.BadRequest);
 
             customer.UpdatePoints(request.PointsInput.PointsToUse * -1, request.UpdatedBy);
 

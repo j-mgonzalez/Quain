@@ -15,7 +15,6 @@ namespace Quain.Repository.Sales
         }
 
         public async Task<Sale> GetSale(string nComp)
-            => await _context.FN_GetBillAmountByNComp(nComp).FirstOrDefaultAsync() 
-                ?? throw new ApplicationException($"La factura {nComp} no existe.");
+            => await _context.FN_GetBillAmountByNComp(nComp).FirstOrDefaultAsync();
     }
 }

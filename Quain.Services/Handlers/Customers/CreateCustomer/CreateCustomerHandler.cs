@@ -8,6 +8,7 @@
     using Quain.Repository.Customers;
     using Quain.Repository.Sales;
     using Quain.Services.DTO;
+    using System.Net;
 
     public class CreateCustomerHandler : IRequestHandler<CreateCustomerCommand, CreateCustomerResponse>
     {
@@ -37,7 +38,7 @@
 
             var billWasUsed = await _pointsChangeRepository.BillNumberWasUsed(request.NComp);
 
-            if (billWasUsed) throw new ApplicationException($"La factura {request.NComp} ya fue utilizada previamente.");
+            if (billWasUsed) return CreateCustomerResponse.With($"La factura {request.NComp} ya fue utilizada previamente.", HttpStatusCode.BadRequest);
 
             var client = await _clientRepository.GetClientByCodClientCuitName(request.CodClient ?? "", request.Name ?? "", request.Cuit ?? "");
 

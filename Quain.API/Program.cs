@@ -7,7 +7,6 @@ namespace Quain.API
     using Quain.API.Middlewares;
     using Quain.Repository;
     using Quain.Services.Extensions;
-    using System.Configuration;
     using System.Text;
 
     public class Program
